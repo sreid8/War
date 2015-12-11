@@ -6,9 +6,9 @@
 
 using namespace std;
 
-//these functions pass by reference so that the deck maintains state throughout execution
-int playWar(Deck &deck);
-int resolveWar(Deck &deck);
+//these functions pass by address so that the deck maintains state throughout execution
+int playWar(Deck *deck);
+int resolveWar(Deck *deck);
 
 int main(void)
 {
@@ -18,7 +18,7 @@ int main(void)
 	for (int i = 0; i < 3; i++)
 	{
 		cout << "Starting round " << i+1 << "!!" << endl;
-		result = playWar(mainDeck);
+		result = playWar(&mainDeck);
 		if (result == -1)
 		{
 			cout << "Round " << i+1 << " goes to Player 1!" << endl;
@@ -33,6 +33,8 @@ int main(void)
 		{
 			cout << "A winner could not be determined in round " << i+1 << "!" << endl;
 		}
+        cout << endl;
+        mainDeck.shuffleDeck();
 	}
 	cout << endl << endl << "Player 1 won " << p1Wins << " times and Player 2 won " << p2Wins << " times" << endl;
 	if (p1Wins > p2Wins)
@@ -64,15 +66,15 @@ if the two drawn cards are equal, war is declared
 
 THE VALUE RETURNED FROM THIS FUNCTION IS THE WINNER. -1 if PLAYER ONE WINS, 1 if PLAYER 2 WINS, 0 for error
 */
-int playWar(Deck &deck)
+int playWar(Deck *deck)
 {
-	Card crazy = deck.getNextCard();
+	Card crazy = deck->getNextCard();
 	cout << "This round's CRAZY CARD is " << crazy.getRank() << " in addition to the normal one of " << CRAZY_CARD << endl;
 	Card p1;
 	Card p2;
 	
-	p1 = deck.getNextCard();
-	p2 = deck.getNextCard();
+	p1 = deck->getNextCard();
+	p2 = deck->getNextCard();
 
 	cout << "Player 1 drew " << p1.getRank() << " and Player 2 drew " << p2.getRank() << "!!" << endl;
 	if ( (p1 == crazy || p1.getRank() == CRAZY_CARD) && p1 != p2)
@@ -101,13 +103,13 @@ int playWar(Deck &deck)
 }
 
 //returns -1 if p1 wins, 1 if p2 wins, 0 for error
-int resolveWar(Deck &deck)
+int resolveWar(Deck *deck)
 {
 	int p1Sum = 0, p2Sum = 0, i = 0, deckSize = 0;
 	Card temp;
 	Deck p1Deck(true);
 	Deck p2Deck(true);
-	deckSize = deck.getNumCardsInDeck();
+	deckSize = deck->getNumCardsInDeck();
 	if (deckSize <= 0)
 	{
 		return 0; //no winner
@@ -118,8 +120,8 @@ int resolveWar(Deck &deck)
 	}
 	for (i = 0; i < deckSize; i++)
 	{
-		p1Deck.insertCard(deck.getNextCard());
-		p2Deck.insertCard(deck.getNextCard());
+		p1Deck.insertCard(deck->getNextCard());
+		p2Deck.insertCard(deck->getNextCard());
 	}
 	for (i = 0; i < deckSize; i++)
 	{
