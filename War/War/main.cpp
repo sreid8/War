@@ -114,7 +114,7 @@ int resolveWar(Deck *deck)
 	{
 		return 0; //no winner
 	}
-	if (deckSize >= 3)
+	if (deckSize >= 6)
 	{
 		deckSize = 3;
 	}

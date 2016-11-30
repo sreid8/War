@@ -1,7 +1,11 @@
 #include "Deck.h"
 
+Deck::Deck() 
+{
+	Deck(false);
+}
 
-Deck::Deck(bool empty = false)
+Deck::Deck(bool empty)
 {
 	int i = 0, j = 0;
 	if (!empty)

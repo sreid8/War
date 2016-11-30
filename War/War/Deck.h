@@ -6,6 +6,7 @@
 class Deck
 {
 public:
+	Deck();
 	Deck(bool empty);
 	~Deck(void);
 
